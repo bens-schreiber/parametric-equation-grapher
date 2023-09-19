@@ -1,67 +1,62 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Basic window
-*
-*   Welcome to raylib!
-*
-*   To test examples, just press F6 and execute raylib_compile_execute script
-*   Note that compiled executable is placed in the same folder as .c file
-*
-*   You can find all basic examples on C:\raylib\raylib\examples folder or
-*   raylib official webpage: www.raylib.com
-*
-*   Enjoy using raylib. :)
-*
-*   Example originally created with raylib 1.0, last time updated with raylib 1.0
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2013-2023 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
+#include "calc3.h"
 
-#include "../lib/raylib.h"
+/*
 
-//------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
+https://web.ma.utexas.edu/users/m408m/Display13-4-2.shtml
+
+What direction are we going? This is given by a tangent vector T which gives the direction of the velocity vector.
+
+Which direction are we curving? Are we turning left, right, up, down, or a combination? This is given by a vector called the principal normal N
+
+How fast are we turning? By fast we mean a derivative with respect to distance, not with respect to time. How much will our direction change in the next inch, or foot, or mile? This is described by the curvature
+κ, and by the radius of curvature R=1/κ
+The bigger the curvature, the tighter the turn and the smaller the radius of curvature.
+
+What plane are we currently moving in? The binormal vector B=T×N
+is perpendicular to both T and N, so it gives the plane in which the curve lies.
+
+*/
+
 int main(void)
 {
-    // Initialization
-    //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
+    const Vector3 BODY_ORIGIN = (Vector3){0.0f, 1.0f, 0.0f};
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    Camera3D camera = createCamera();
+    Body body = createBody(BODY_ORIGIN);
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
+    InitWindow(screenWidth, screenHeight, "Calc 3 Example - Ben Schreiber");
 
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    DisableCursor();
+
+    SetTargetFPS(60);
+
+    while (!WindowShouldClose())
     {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
 
-        // Draw
-        //----------------------------------------------------------------------------------
+        UpdateCamera(&camera, CAMERA_FIRST_PERSON);
+        updateBodyPosition(&body);
+        bodyCalculus(&body);
+
         BeginDrawing();
 
-            ClearBackground(RAYWHITE);
+        ClearBackground(RAYWHITE);
 
-            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        BeginMode3D(camera);
+
+        drawScene();
+        drawBody(body.position);
+        drawGraphs(&body);
+
+        EndMode3D();
+
+        // drawInfoBoxes(&body);
 
         EndDrawing();
-        //----------------------------------------------------------------------------------
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+    CloseWindow();
 
     return 0;
 }
