@@ -48,6 +48,7 @@ void updateBodyPosition(Body *body)
 
     body->position.x = 2.0f * sin(frame);
     body->position.z = 2.0f * cos(frame);
+    body->position.y = frame;
 }
 
 void bodyCalculus(Body *body) {
@@ -72,8 +73,8 @@ void drawScene(void)
     // floor
     DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, LIGHTGRAY);
 
-    // ceiling
-    DrawCube((Vector3){0.0f, 12.0f, 0.0f}, 32.0f, 1.0f, 32.0f, LIGHTGRAY);
+    // // ceiling
+    // DrawCube((Vector3){0.0f, 12.0f, 0.0f}, 32.0f, 1.0f, 32.0f, LIGHTGRAY);
 }
 
 void drawBody(Vector3 body)

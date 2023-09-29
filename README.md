@@ -1,4 +1,4 @@
 # Calculus 3 Demo
 
-Vectors, tangent vectors, principal normal vectors, curvature, binormal vector
-Made with RayLib
+A small parametric equation grapher made in Raylib to help me with understanding Calc 3.
+Shows the position, velocity and acceleration vectors
